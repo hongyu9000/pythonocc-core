@@ -393,23 +393,22 @@ def read_iges_file(filename, return_as_shapes=False, verbosity=False, visible_on
             iges_reader.PrintCheckTransfer(failsonly, IFSelect_ItemsByEntity)
         iges_reader.TransferRoots()
         nbr = iges_reader.NbRootsForTransfer()
-        for _ in range(1, nbr+1):
-            nbs = iges_reader.NbShapes()
-            if nbs == 0:
-                print("At least one shape in IGES cannot be transfered")
-            elif nbr == 1 and nbs == 1:
-                a_res_shape = iges_reader.Shape(1)
-                if a_res_shape.IsNull():
-                    print("At least one shape in IGES cannot be transferred")
-                else:
-                    _shapes.append(a_res_shape)
+        nbs = iges_reader.NbShapes()
+        if nbs == 0:
+            print("At least one shape in IGES cannot be transfered")
+        elif nbr == 1 and nbs == 1:
+            a_res_shape = iges_reader.Shape(1)
+            if a_res_shape.IsNull():
+                print("At least one shape in IGES cannot be transferred")
             else:
-                for i in range(1, nbs+1):
-                    a_shape = iges_reader.Shape(i)
-                    if a_shape.IsNull():
-                        print("At least one shape in STEP cannot be transferred")
-                    else:
-                        _shapes.append(a_shape)
+                _shapes.append(a_res_shape)
+        else:
+            for i in range(1, nbs+1):
+                a_shape = iges_reader.Shape(i)
+                if a_shape.IsNull():
+                    print("At least one shape in STEP cannot be transferred")
+                else:
+                    _shapes.append(a_shape)
     # if not return as shapes
     # create a compound and store all shapes
     if not return_as_shapes:
